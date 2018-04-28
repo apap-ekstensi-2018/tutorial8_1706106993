@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <div th:replace="fragments/fragment :: header"></div>
+        <link rel="stylesheet" type="text/css" href="/css/datatables.css" /> 
+        <script type="text/javascript" charset="utf8" src="/js/jquery.dataTables.js"></script>
+        <link rel="stylesheet" type="text/css" href="/css/datatables.min.css"/>
+		<script type="text/javascript" src="/js/datatables.min.js"></script>
+    </head>
+    <body>
+    <h2 th:text=" 'Login as ' + ${#httpServletRequest.remoteUser}">Login as</h2>
+    <form th:action="@{/logout}" method="post">
+		<input type="submit" value="Sign Out"/>
+	</form>
+        <h1>All Students</h1>
+        
+	    <table id="tblStudent" class="display" style="width:100%">
+		    <thead>
+		        <tr>
+		            <th>No</th>
+		            <th>NPM</th>
+		            <th>Name</th>
+		            <th>GPA</th>
+		            <th>Status</th>
+		            <th>Action</th>
+		            <th>Action</th>
+		        </tr>
+		    </thead>
+		    <tbody>
+		    	<div th:each="student,iterationStatus: ${students}" th:class="${iterationStatus.odd} ? 'odd'">
+		    		<tr> 
+		    			<td th:text="${iterationStatus.count}"></td>
+		    			<td th:text="${student.npm}"> </td>
+		    			<td th:text="${student.name}"> </td>
+		    			<td th:text="${student.gpa}"> </td>
+		    			<td th:text="${student.gpa>=3.49}?'Cum Laude!':'Sangat Memuaskan!'"> </td>
+		    			<td> <a th:href="'/student/delete/' + ${student.npm}"> Delete Data </a><br/></td>
+		    			<td> <a th:href="'/student/update/' + ${student.npm}"> Update Data </a><br/></td>
+		    		</tr>
+		    	</div>
+		    </tbody>
+		</table>
+		
+		<script>
+			$(document).ready( function () {
+			    $('#tblStudent').DataTable();
+			} );
+		</script>
+    </body>
+</html>
